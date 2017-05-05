@@ -40,7 +40,7 @@ function handleError(error) {
   return new Promise((resolve, reject) => reject(error));
 }
 
-export class Now {
+export default class Now {
   _token: string;
   _baseUrl: string;
 
@@ -300,8 +300,4 @@ export class Now {
       method: 'DELETE'
     });
   };
-}
-
-export default function(token: string) {
-  return new Now(token);
 }
