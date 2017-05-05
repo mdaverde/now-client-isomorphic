@@ -37,7 +37,7 @@ const ERROR = {
 };
 
 function handleError(error) {
-  return Promise((resolve, reject) => reject(error));
+  return new Promise((resolve, reject) => reject(error));
 }
 
 export class Now {
