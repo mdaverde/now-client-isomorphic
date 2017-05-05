@@ -1,6 +1,6 @@
 {
   "name": "now-client-isomorphic",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Isomorphic JavaScript wrapper for the 𝚫 now API",
   "main": "dist/index.js",
   "scripts": {
@@ -17,7 +17,9 @@
     "now-cli",
     "isomorphic"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "author": "Marlon L. <milanlandaverde@gmail.com.com> (http://mdaverde.com)",
   "license": "MIT",
   "devDependencies": {
