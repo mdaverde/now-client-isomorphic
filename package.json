@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "webpack",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint index.js"
   },
   "repository": {
     "type": "git",
@@ -30,11 +31,8 @@
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.4.0",
     "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.3",
     "flow-bin": "^0.45.0",
     "jest": "^19.0.2",
     "webpack": "^2.5.0"

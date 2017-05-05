@@ -64,14 +64,5 @@
     "dot-location": [2, "property"],
     "no-unneeded-ternary": 2,
     "quote-props": [2, "as-needed"],
-    "react/jsx-uses-react": 2,
-    "react/jsx-uses-vars": 2,
-    "react/prop-types": 0,
-    "react/sort-prop-types": 2,
-    "react/jsx-no-duplicate-props": 2,
-    "react/jsx-no-bind": 0,
-    "react/jsx-closing-bracket-location": [2, "tag-aligned"],
-    "react/prefer-stateless-function": 2,
-    "react/forbid-prop-types": 2
   }
 }
