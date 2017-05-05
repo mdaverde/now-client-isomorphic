@@ -1,6 +1,6 @@
 {
   "name": "now-client-isomorphic",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Isomorphic JavaScript wrapper for the 𝚫 now API",
   "main": "dist/index.js",
   "scripts": {
