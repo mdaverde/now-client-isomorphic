@@ -17,7 +17,7 @@
     "now-cli",
     "isomorphic"
   ],
-  "author": "Marlon L. <milanlandaverde@gmail.com.com> (http://mdaverde.sexy)",
+  "author": "Marlon L. <milanlandaverde@gmail.com.com> (http://mdaverde.com)",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.24.1",
