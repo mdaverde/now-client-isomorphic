@@ -40,6 +40,10 @@ function handleError(error) {
   return new Promise((resolve, reject) => reject(error));
 }
 
+/**
+ * Class wrapper around Zeit's 𝚫 now API
+ * @class Now
+ */
 export default class Now {
   _token: string;
   _baseUrl: string;
@@ -58,7 +62,7 @@ export default class Now {
     const splitter = path[0] === '/' ? '' : '/';
     return `${this._baseUrl}${splitter}${path}`;
   }
-  handleRequest({ path, method, data }, selector: string) : Promise<Object> {
+  handleRequest({ path, method, data }, selector: string) : Promise<Object | Object[]> {
     const headers = {
       Authorization: `Bearer ${this._token}`
     };
@@ -66,13 +70,19 @@ export default class Now {
     return axios({ method, url, data, headers })
       .then(({ data }) => data[selector]);
   }
-  getDeployments() {
+  /**
+   * Returns all current deployments under the account
+   */
+  getDeployments() : Promise<{ uid: string, name: string, url: string, created: string }[]> {
     return this.handleRequest({
       path: '/now/deployments',
       method: 'GET'
     }, 'deployments')
   }
-  getDeployment(deploymentId: string) {
+  /**
+   * Returns single deployment data
+   */
+  getDeployment(deploymentId: string) : Promise<{ uid: string, host: string, state: string, stateTs: string }> {
     if (!deploymentId) {
       return handleError(ERROR.MISSING_ID)
     }
@@ -81,7 +91,10 @@ export default class Now {
       method: 'GET'
     });
   }
-  createDeployment(data: Object) {
+  /**
+   * Creates deployment
+   */
+  createDeployment(data: { package: string }) : Promise<{ uid: string, host: string, state: string }> {
     if (!data) {
       return handleError(ERROR.MISSING_BODY)
     }
@@ -92,6 +105,9 @@ export default class Now {
       method: 'POST',
     });
   }
+  /**
+   * Deletes specific deployment
+   */
   deleteDeployment(deploymentId: string) : Promise<Object> {
     if (!deploymentId) {
       return handleError(ERROR.MISSING_ID)
@@ -101,49 +117,61 @@ export default class Now {
       method: 'DELETE'
     });
   }
-  getFiles(deploymentId: string) {
+  /**
+   * Gets list of files from deployment
+   */
+  getFiles(deploymentId: string) : Promise<Object[]> {
     if (!deploymentId) {
       return handleError(ERROR.MISSING_ID)
     }
-
     return this.handleRequest({
       path: `/now/deployments/${deploymentId}/files`,
       method: 'GET'
     });
   }
-  getFile(deploymentId: string, fileId: string) {
+  /**
+   * Gets file data for specific file id
+   */
+  getFile(deploymentId: string, fileId: string) : Promise<Object> {
     if (!deploymentId) {
       return handleError(ERROR.MISSING_ID)
     }
-
     if (!fileId) {
       return handleError(ERROR.MISSING_FILE_ID)
     }
-
     return this.handleRequest({
       path: `/now/deployments/${deploymentId}/files/${fileId}`,
       method: 'GET'
     });
   }
-  getDomains() {
+  /**
+   * Returns list of domains registered
+   */
+  getDomains() : Promise<Object[]> {
     return this.handleRequest({
       path: '/domains',
       method: 'GET'
     }, 'domains');
   }
-  addDomain(domain: Object) {
+  /**
+   * Ability to add a domain
+   */
+  addDomain(domain: { name: string, isExternalDNS: boolean }) {
     if (typeof domain.name !== 'string') {
       return handleError(ERROR.MISSING_NAME);
     }
     return this.handleRequest({
       path: '/domains',
-      method: 'post',
+      method: 'POST',
       data: {
         name: domain.name,
         isExternal: domain.isExternalDNS
       }
     });
   }
+  /**
+   * Delete a previously registered domain name from now
+   */
   deleteDomain(name: string) {
     if (typeof name !== 'string') {
       return handleError(ERROR.MISSING_NAME);
@@ -153,12 +181,18 @@ export default class Now {
       method: 'DELETE'
     });
   }
+  /**
+   * Get a list of DNS records created for a domain name
+   */
   getDomainRecords(domain) {
     return this.handleRequest({
       path: `/domains/${domain}/records`,
       method: 'GET'
     }, 'records');
   }
+  /**
+   * Create a DNS record for a domain
+   */
   addDomainRecord(domain, recordData) {
     return this.handleRequest({
       path: `/domains/${domain}/records`,
@@ -166,12 +200,18 @@ export default class Now {
       data: recordData
     });
   }
+  /**
+   * Delete a DNS record created for a domain name
+   */
   deleteDomainRecord(domain, recordId) {
     return this.handleRequest({
       path: `/domains/${domain}/records/${recordId}`,
       method: 'delete'
     })
   }
+  /**
+   * Retrieves a list of certificates issued for the authenticating user
+   */
   getCertificates(cn: string) {
     let path = '/certs';
     if (cn) {
@@ -182,18 +222,22 @@ export default class Now {
       method: 'GET'
     }, 'certs');
   }
-  createCertificate(cn) {
+  /**
+   * Issue a new certification
+   */
+  createCertificate(cn: string) {
     if (typeof cn !== 'string') {
       return handleError(ERROR.MISSING_CN, cn);
     }
     return this.handleRequest({
       path: '/now/certs',
       method: 'POST',
-      data: {
-        domains: [cn]
-      }
+      data: { domains: [cn] }
     });
   }
+  /**
+   * Renew a new certification
+   */
   renewCertificate(cn: string) {
     if (typeof cn !== 'string') {
       return handleError(ERROR.MISSING_CN, cn);
@@ -207,6 +251,9 @@ export default class Now {
       }
     });
   }
+  /**
+   * Replace an existing or create a new certificate entry with a user-supplied certificate
+   */
   replaceCertificate(cn: string, cert: string, key: string, ca: string) {
     return this.handleRequest({
       path: '/now/certs',
@@ -217,6 +264,9 @@ export default class Now {
       }
     }, 'created');
   }
+  /**
+   * Delete an existing certificate entry
+   */
   deleteCertificate(cn: string) {
     if (typeof cn !== 'string') {
       return handleError(ERROR.MISSING_CN, cn);
@@ -227,6 +277,9 @@ export default class Now {
       method: 'DELETE'
     });
   }
+  /**
+   * Retrieves all of the active now aliases for the authenticating user
+   */
   getAliases(id: ?string) {
     let path = '/now/aliases';
     if (id) {
@@ -237,6 +290,9 @@ export default class Now {
       method: 'GET'
     }, 'aliases');
   }
+  /**
+   * Creates a new alias for the deployment
+   */
   createAlias(id: string, alias: string) {
     if (!id) {
       return handleError(ERROR.MISSING_ID);
@@ -250,6 +306,9 @@ export default class Now {
       data: { alias }
     });
   }
+  /**
+   * Delete an alias by id
+   */
   deleteAlias(id: string) {
     if (!id) {
       return handleError(ERROR.MISSING_ID);
@@ -259,12 +318,18 @@ export default class Now {
       method: 'DELETE'
     });
   }
+  /**
+   * Retrieves all of the active now secrets
+   */
   getSecrets() {
     return this.handleRequest({
       path: '/now/secrets',
       method: 'GET'
     }, 'secrets');
   }
+  /**
+   * Creates a new secret
+   */
   createSecret(name: string, value: string) {
     if (!name) {
       return handleError(ERROR.MISSING_NAME);
@@ -278,6 +343,9 @@ export default class Now {
       data: { name, value }
     });
   }
+  /**
+   * Edit the name of a user's secret
+   */
   renameSecret(id: string, name: string) {
     if (!id) {
       return handleError(ERROR.MISSING_ID);
@@ -291,6 +359,10 @@ export default class Now {
       data: { name }
     });
   }
+
+  /**
+   * Delete a user's secret.
+   */
   deleteSecret(id: string) {
     if (!id) {
       return handleError(ERROR.MISSING_ID);

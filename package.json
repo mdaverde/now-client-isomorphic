@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack",
     "test": "jest",
-    "lint": "eslint index.js"
+    "lint": "eslint index.js",
+    "doc": "documentation lint index.js && documentation readme index.js --section=API --shallow"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.4.0",
+    "documentation": "^4.0.0-rc.1",
     "eslint": "^3.19.0",
     "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-import": "^2.2.0",
