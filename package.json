@@ -7,7 +7,8 @@
     "build": "webpack",
     "test": "jest",
     "lint": "eslint index.js",
-    "doc": "documentation lint index.js && documentation readme index.js --section=API --shallow"
+    "doc": "documentation lint index.js && documentation readme index.js --section=API --shallow",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
