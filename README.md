@@ -1,6 +1,6 @@
 # Isomorphic 𝚫 now client
 
-This is currently a **fork** of [now-client](https://github.com/zeit/now-client) which the intention of being able to be run in both node and the browser (and more semicolons).
+This is currently a **fork** of the [now-client](https://github.com/zeit/now-client) with the intention of being able to be run in both node and the browser (and adds more semicolons).
 
 ```sh
 $ npm install --save now-client-isomorphic
