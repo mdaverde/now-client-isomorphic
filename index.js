@@ -41,7 +41,7 @@ function handleError(error) {
 }
 
 /**
- * Class wrapper around Zeit's 𝚫 now API
+ * Class wrapper around Zeit's 𝚫 {@link https://zeit.co/api now API}
  * @class Now
  */
 export default class Now {
@@ -184,7 +184,7 @@ export default class Now {
   /**
    * Get a list of DNS records created for a domain name
    */
-  getDomainRecords(domain) {
+  getDomainRecords(domain: string) {
     return this.handleRequest({
       path: `/domains/${domain}/records`,
       method: 'GET'
@@ -193,7 +193,7 @@ export default class Now {
   /**
    * Create a DNS record for a domain
    */
-  addDomainRecord(domain, recordData) {
+  addDomainRecord(domain: string, recordData: { data: { name: string, type: string, value: string, mxPriority: string } }) : Promise<{ uid: string }> {
     return this.handleRequest({
       path: `/domains/${domain}/records`,
       method: 'POST',
@@ -203,7 +203,7 @@ export default class Now {
   /**
    * Delete a DNS record created for a domain name
    */
-  deleteDomainRecord(domain, recordId) {
+  deleteDomainRecord(domain: string, recordId: string) {
     return this.handleRequest({
       path: `/domains/${domain}/records/${recordId}`,
       method: 'delete'
