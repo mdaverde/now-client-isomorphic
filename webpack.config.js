@@ -2,7 +2,6 @@ const path = require('path');
 
 const config = {
   entry: [
-    'babel-polyfill',
     './index.js'
   ],
   output: {
@@ -21,11 +20,11 @@ const config = {
     ]
   },
   externals: {
-    "axios": {
-        commonjs: "axios",
-        commonjs2: "axios",
-        amd: "axios",
-        root: "axios"
+    axios: {
+      commonjs: 'axios',
+      commonjs2: 'axios',
+      amd: 'axios',
+      root: 'axios'
     }
   }
 };

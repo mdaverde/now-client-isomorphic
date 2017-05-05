@@ -58,13 +58,13 @@ export default class Now {
     const splitter = path[0] === '/' ? '' : '/';
     return `${this._baseUrl}${splitter}${path}`;
   }
-  async handleRequest({ path, method, data }, selector: string) : Promise<Object> {
+  handleRequest({ path, method, data }, selector: string) : Promise<Object> {
     const headers = {
       Authorization: `Bearer ${this._token}`
     };
     const url = this._generateUrl(path);
-    const response = await axios({ method, url, data, headers });
-    return response.data[selector];
+    return axios({ method, url, data, headers })
+      .then(({ data }) => data[selector]);
   }
   getDeployments() {
     return this.handleRequest({
