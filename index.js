@@ -4,7 +4,7 @@ import axios from 'axios';
 const ERROR = {
   MISSING_TOKEN: {
     code: 'missing_token',
-    message: 'Missing `id` parameter'
+    message: 'Missing `token` parameter'
   },
   MISSING_ID: {
     code: 'missing_id',
@@ -50,7 +50,7 @@ export default class Now {
 
   constructor(token: string) {
     if (!token) {
-      throw new Error(ERROR.MISSING_TOKEN);
+      throw new Error(ERROR.MISSING_TOKEN.message);
     }
     this._token = token;
     this._baseUrl = 'https://api.zeit.co';
